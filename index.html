@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Quilometragem - Doce Mistura</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <div class="no-print">
+        <h2>Painel de Inserção</h2>
+        <div class="grid-inputs">
+            <div>
+                <label>Funcionário:</label>
+                <select id="nomeFunc">
+                    <option value="Eduardo Gonçalves">Eduardo Gonçalves</option>
+                    <option value="Valdo de souza">Valdo de souza</option>
+                </select>
+            </div>
+            <div>
+                <label>Data:</label>
+                <input type="date" id="data">
+            </div>
+            <div>
+                <label>Km Rodados no Dia:</label>
+                <input type="number" id="kmDia" placeholder="Ex: 55.5">
+            </div>
+        </div>
+        <button class="btn-add" onclick="salvarDia()">Salvar Dia</button>
+        <button class="btn-clear" onclick="limparDados()">Limpar Dados</button>
+    </div>
+
+    <div class="no-print">
+        <h3>Lançamentos</h3>
+        <table id="tabela-lancamentos">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Km</th>
+                    <th>Valor (R$)</th>
+                    <th>Ação</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Linhas inseridas via JS -->
+            </tbody>
+        </table>
+    </div>
+    
+    <hr>
+
+    <div id="relatorio">
+        <div class="header-relatorio">
+            <h3>Relatório de Km</h3>
+            <p><strong>Empresa:</strong> Doce Mistura</p>
+            <p><strong>Funcionário:</strong> <span id="outNome">__________</span></p>
+            <p>Período: <span id="outPeriodo">Aguardando dados...</span></p>
+        </div>
+
+        <h4>Resumo do Cálculo</h4>
+        <p>Total de Km Rodados: <span class="destaque-amarelo" id="outTotalKm">0</span></p>
+        <p>Valor por Km: <strong>R$ 0,60</strong></p>
+        
+        <div class="recibo-box">
+            <h4>Recibo</h4>
+            <p>Valor: <span class="destaque-verde" id="outValorTotal">R$ 0,00</span></p>
+            <p>Referente a: Despesas de Quilometragem realizadas pelo funcionário no período acima mencionado.</p>
+            <br><br>
+            <p>__________________________________________</p>
+            <p>Assinatura do Responsável</p>
+        </div>
+        <div class="no-print" style="margin-top: 20px;">
+             <button class="btn-pdf" onclick="gerarPDF()">Baixar Relatório em PDF</button>
+        </div>
+    </div>
+</div>
+
+<script src="main.js"></script>
+
+</body>
+</html>
