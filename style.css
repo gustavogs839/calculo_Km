@@ -1,84 +1,168 @@
-body {
-    font-family: sans-serif;
-    margin: 20px;
+/* 1. CONFIGURAÇÕES GERAIS */
+body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    background-color: #f0f2f5; 
+    color: #333; 
+    padding: 20px; 
+}
+.container { max-width: 900px; margin: auto; }
+
+/* 2. PAINEL DE INSERÇÃO (LAYOUT MODERNO EM CARDS) */
+.panel { 
+    background: #fff; 
+    padding: 25px; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08); 
+    margin-bottom: 30px; 
 }
 
-.container {
-    max-width: 800px;
-    margin: auto;
-}
-
-.no-print {
+.grid-inputs-modern {
+    display: grid;
+    /* Divide em 3 colunas iguais, mas se a tela for pequena, pula para baixo */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    gap: 15px;
     margin-bottom: 20px;
 }
 
-h2,
-h3 {
-    margin-top: 0;
+.card-input {
+    background: #f8f9fa;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    box-sizing: border-box; /* Garante que o padding não aumente o tamanho do card */
 }
 
-.grid-inputs {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-    margin-bottom: 15px;
+.card-input:hover { border-color: #007bff; }
+
+label { display: block; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; color: #666; margin-bottom: 8px; }
+
+input, select { 
+    width: 100%; 
+    padding: 8px; 
+    border: 1px solid #ccc; 
+    border-radius: 4px; 
+    font-size: 1rem;
+    background-color: white;
 }
 
-label {
-    display: block;
-    margin-bottom: 5px;
-}
+/* 3. BOTÕES */
+.button-group-modern { display: flex; gap: 10px; }
+button { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
 
-input, select {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
+.btn-add { background: #28a745; color: white; flex: 2; }
+.btn-clear { background: #dc3545; color: white; flex: 1; }
+.btn-pdf { 
+    background: #007bff; color: white; font-size: 1.1rem; padding: 15px; width: 100%; 
+    margin-top: 20px; box-shadow: 0 4px 6px rgba(0,123,255,0.2);
 }
+button:hover { opacity: 0.9; transform: translateY(-1px); }
 
-button {
-    padding: 10px 15px;
-    cursor: pointer;
-    margin-right: 10px;
-}
-
-#tabela-lancamentos {
+/* Estilo da Tabela Revisado para Centralização */
+.tabela-pdf {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin: 20px 0;
+    table-layout: fixed; /* Força as colunas a respeitarem a largura definida */
 }
 
-#tabela-lancamentos th,
-#tabela-lancamentos td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: left;
+.tabela-pdf th, .tabela-pdf td {
+    border: 1px solid #ddd;
+    padding: 10px 5px;
+    text-align: center; /* Centraliza horizontalmente */
+    vertical-align: middle; /* Centraliza verticalmente */
+    word-wrap: break-word; /* Evita que o texto saia da célula */
 }
 
-#tabela-lancamentos th {
-    background-color: #f2f2f2;
-}
-
-#relatorio {
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid #ccc;
-}
-
-.header-relatorio {
-    margin-bottom: 20px;
-}
-
-.destaque-amarelo,
-.destaque-verde {
+.tabela-pdf th {
+    background-color: #00ff00;
+    color: black;
     font-weight: bold;
 }
 
-.recibo-box {
-    margin-top: 30px;
+/* Definindo larguras específicas para cada coluna */
+.tabela-pdf th:nth-child(1), .tabela-pdf td:nth-child(1) { width: 45%; text-align: left; padding-left: 15px; } /* Data maior e à esquerda */
+.tabela-pdf th:nth-child(2), .tabela-pdf td:nth-child(2) { width: 20%; } /* Km Rodado */
+.tabela-pdf th:nth-child(3), .tabela-pdf td:nth-child(3) { width: 20%; } /* Valor R$ */
+.tabela-pdf th:nth-child(4), .tabela-pdf td:nth-child(4) { width: 15%; } /* Ação */
+
+/* Ajuste do Resumo para alinhar com a tabela */
+.resumo-container {
+    display: flex;
+    justify-content: space-between;
+    background: #f1f1f1;
+    padding: 15px 40px;
+    border-radius: 8px;
+    margin-top: 20px;
 }
 
+.grid-inputs-modern {
+    display: grid;
+    /* Divide em 3 colunas iguais, mas se a tela for pequena, pula para baixo */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.card-input {
+    background: #f8f9fa;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    box-sizing: border-box; /* Garante que o padding não aumente o tamanho do card */
+}
+
+/* 5. ÁREA DO RELATÓRIO (PDF) */
+#relatorio { background: white; padding: 40px; border-radius: 4px; border: 1px solid #eee; }
+
+.header-relatorio { 
+    display: flex; 
+    justify-content: space-between; 
+    border-bottom: 3px solid #333; 
+    padding-bottom: 20px; 
+    margin-bottom: 20px; 
+}
+
+.resumo-container {
+    display: flex;
+    justify-content: space-around;
+    background: #f1f1f1;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.destaque-amarelo { background: #ffff00; padding: 2px 10px; font-weight: bold; border: 1px solid #ccc; }
+.destaque-verde { background: #00ff00; padding: 8px 20px; font-weight: bold; font-size: 1.3rem; }
+
+.recibo-box { border: 2px solid #333; padding: 25px; margin-top: 30px; position: relative; }
+
+/* 6. ESCONDER NA IMPRESSÃO */
 @media print {
-    .no-print {
-        display: none;
-    }
+    .no-print { display: none !important; }
+    #relatorio { border: none; padding: 0; }
+}
+/* Ajustes específicos para a geração do PDF */
+#relatorio {
+    width: 790px; /* Largura ideal para um A4 com margens */
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+.tabela-pdf {
+    width: 100%;
+    table-layout: fixed; /* Força as larguras das colunas */
+    border-collapse: collapse;
+}
+
+/* Distribui as colunas para não haver cortes */
+.tabela-pdf th:nth-child(1), .tabela-pdf td:nth-child(1) { width: 45%; text-align: left; }
+.tabela-pdf th:nth-child(2), .tabela-pdf td:nth-child(2) { width: 20%; text-align: center; }
+.tabela-pdf th:nth-child(3), .tabela-pdf td:nth-child(3) { width: 20%; text-align: center; }
+.tabela-pdf th:nth-child(4), .tabela-pdf td:nth-child(4) { width: 15%; text-align: center; }
+@media print {
+    body { background: white; }
+    .container { width: 100%; padding: 0; margin: 0; }
+    #relatorio { border: none; box-shadow: none; }
 }

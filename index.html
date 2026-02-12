@@ -2,82 +2,81 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Quilometragem - Doce Mistura</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script></head>
 <body>
 
 <div class="container">
-    <div class="no-print">
-        <h2>Painel de Inserção</h2>
-        <div class="grid-inputs">
-            <div>
-                <label>Funcionário:</label>
-                <select id="nomeFunc">
-                    <option value="Eduardo Gonçalves">Eduardo Gonçalves</option>
-                    <option value="Valdo de souza">Valdo de souza</option>
-                </select>
-            </div>
-            <div>
-                <label>Data:</label>
-                <input type="date" id="data">
-            </div>
-            <div>
-                <label>Km Rodados no Dia:</label>
-                <input type="number" id="kmDia" placeholder="Ex: 55.5">
-            </div>
+    <div class="no-print panel">
+        <h2>🚚 Gestão de Quilometragem</h2>
+       <div class="grid-inputs-modern">
+    <div class="card-input">
+        <label>Funcionário</label>
+        <select id="nomeFunc">
+            <option value="Eduardo Gonçalves">Eduardo Gonçalves</option>
+            <option value="Valdo de Souza">Valdo de Souza</option>
+        </select>
+    </div>
+    <div class="card-input">
+        <label>Data</label>
+        <input type="date" id="data">
+    </div>
+    <div class="card-input">
+        <label>Km Rodados</label>
+        <input type="number" id="kmDia" placeholder="0.0">
+    </div>
+</div>
+        <div class="button-group-modern">
+            <button class="btn-add" onclick="salvarDia()">+ Adicionar Lançamento</button>
+            <button class="btn-clear" onclick="limparDados()">Limpar Tudo</button>
         </div>
-        <button class="btn-add" onclick="salvarDia()">Salvar Dia</button>
-        <button class="btn-clear" onclick="limparDados()">Limpar Dados</button>
     </div>
-
-    <div class="no-print">
-        <h3>Lançamentos</h3>
-        <table id="tabela-lancamentos">
-            <thead>
-                <tr>
-                    <th>Data</th>
-                    <th>Km</th>
-                    <th>Valor (R$)</th>
-                    <th>Ação</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Linhas inseridas via JS -->
-            </tbody>
-        </table>
-    </div>
-    
-    <hr>
 
     <div id="relatorio">
         <div class="header-relatorio">
-            <h3>Relatório de Km</h3>
-            <p><strong>Empresa:</strong> Doce Mistura</p>
-            <p><strong>Funcionário:</strong> <span id="outNome">__________</span></p>
-            <p>Período: <span id="outPeriodo">Aguardando dados...</span></p>
+            <div>
+                <h1 style="margin:0; color:#2c3e50;">Relatório de Km Semanal</h1>
+                <p><strong>Empresa:</strong> Doce Mistura</p>
+                <p><strong>Funcionário:</strong> <span id="outNome">__________</span></p>
+                <p><strong>Período:</strong> <span id="outPeriodo">--/-- até --/--</span></p>
+            </div>
+            <div class="logo-container">
+                <img id="imgLogo" src="https://via.placeholder.com/100x60?text=Doce+Mistura" alt="Logo">
+            </div>
         </div>
 
-        <h4>Resumo do Cálculo</h4>
-        <p>Total de Km Rodados: <span class="destaque-amarelo" id="outTotalKm">0</span></p>
-        <p>Valor por Km: <strong>R$ 0,60</strong></p>
+        <h4>Detalhes Diários</h4>
+        <table class="tabela-pdf">
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Km Rodado</th>
+                    <th>Valor (R$)</th>
+                    <th class="no-print">Ação</th>
+                </tr>
+            </thead>
+            <tbody id="corpo-tabela">
+                </tbody>
+        </table>
+
+        <div class="resumo-container">
+            <div class="resumo-item">Total Km: <span id="outTotalKm" class="destaque-amarelo">0</span></div>
+            <div class="resumo-item">Valor Total: <span id="outValorTotal" class="destaque-verde">R$ 0,00</span></div>
+        </div>
         
         <div class="recibo-box">
-            <h4>Recibo</h4>
-            <p>Valor: <span class="destaque-verde" id="outValorTotal">R$ 0,00</span></p>
-            <p>Referente a: Despesas de Quilometragem realizadas pelo funcionário no período acima mencionado.</p>
-            <br><br>
-            <p>__________________________________________</p>
-            <p>Assinatura do Responsável</p>
-        </div>
-        <div class="no-print" style="margin-top: 20px;">
-             <button class="btn-pdf" onclick="gerarPDF()">Baixar Relatório em PDF</button>
+            <p>Referente ao reembolso de despesas de quilometragem.</p>
+            <div style="margin-top:40px; text-align:center; border-top: 1px solid #000; width: 300px; margin-left: auto; margin-right: auto;">
+                <p>Assinatura</p>
+            </div>
         </div>
     </div>
+
+    <button class="btn-pdf no-print" onclick="gerarPDF()">⬇️ Baixar Relatório Completo (PDF)</button>
 </div>
 
 <script src="main.js"></script>
-
 </body>
 </html>
