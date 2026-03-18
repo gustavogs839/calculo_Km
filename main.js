@@ -54,26 +54,42 @@ function atualizarInterface(nome) {
                 <td style="text-align: center;">${item.km.toLocaleString('pt-BR')} km</td>
                 <td style="text-align: center;">R$ ${valorDia.toFixed(2).replace('.', ',')}</td>
                 <td class="no-print" style="text-align: center;">
-                    <button onclick="removerDia(${index})" style="background:#ff4444; color:white; border:none; padding:4px 8px; border-radius:4px; cursor:pointer;">Remover</button>
+                    <button class="btn-remove" onclick="removerDia(${index})">Remover</button>
                 </td>
             </tr>`;
     });
 
     // Atualiza o resumo de valores
     const valorTotal = totalKm * 0.60;
-    document.getElementById('outNome').innerText = nome || "__________";
+    const nomeAtual = nome || "__________";
+
+    document.querySelectorAll('.out-nome').forEach(el => el.innerText = nomeAtual);
     document.getElementById('outTotalKm').innerText = totalKm.toLocaleString('pt-BR');
     document.getElementById('outValorTotal').innerText = "R$ " + valorTotal.toLocaleString('pt-BR', {minimumFractionDigits: 2});
 
     // Atualiza o período no cabeçalho (Data inicial e final)
+    let periodoTexto = "--/-- até --/--";
     if (lancamentos.length > 0) {
         const datasSorted = lancamentos.map(l => l.data).sort();
-        document.getElementById('outPeriodo').innerText = 
-            `${formatarDataExtenso(datasSorted[0])} até ${formatarDataExtenso(datasSorted[datasSorted.length-1])}`;
+        periodoTexto = `${formatarDataExtenso(datasSorted[0])} até ${formatarDataExtenso(datasSorted[datasSorted.length-1])}`;
     } else {
-        document.getElementById('outPeriodo').innerText = "--/-- até --/--";
+        const dataSelecionada = document.getElementById('data').value;
+        if (dataSelecionada) {
+            periodoTexto = formatarDataExtenso(dataSelecionada);
+        }
     }
+
+    document.querySelectorAll('.out-periodo').forEach(el => el.innerText = periodoTexto);
 }
+
+// Mantém o cabeçalho atualizado ao mudar nome ou data (antes de gravar entradas)
+document.getElementById('nomeFunc').addEventListener('change', () => {
+    atualizarInterface(document.getElementById('nomeFunc').value);
+});
+
+document.getElementById('data').addEventListener('change', () => {
+    atualizarInterface(document.getElementById('nomeFunc').value);
+});
 
 function removerDia(index) {
     lancamentos.splice(index, 1);
@@ -95,19 +111,34 @@ function gerarPDF() {
     // Nome do arquivo baseado no funcionário selecionado
     const nomeMotorista = document.getElementById('nomeFunc').value || 'Relatorio';
 
+    // Aplica classe temporária para esconder itens que não devem ir para o PDF
+    document.body.classList.add('pdf-export');
+
     const opcoes = {
         margin: [10, 10, 10, 10], // Margens da folha
         filename: `Relatorio_KM_${nomeMotorista}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { 
+        html2canvas: {
             scale: 2, // Melhora a qualidade do texto
             useCORS: true,
-            width: 800, // Força a captura na largura do relatório
-            windowWidth: 800 // Evita que o PDF tente capturar o ecrã todo
+            scrollY: 0, // Garante captura completa do elemento, mesmo se houver scroll
+            windowWidth: document.body.scrollWidth,
+            windowHeight: document.body.scrollHeight,
+            backgroundColor: null
         },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['css', 'legacy'] }
     };
 
     // Gera o PDF
-    html2pdf().set(opcoes).from(elemento).save();
+    html2pdf()
+        .set(opcoes)
+        .from(elemento)
+        .save()
+        .finally(() => {
+            document.body.classList.remove('pdf-export');
+        });
 }
+
+// Atualiza os cabeçalhos na primeira carga (para ter nome/período desde o início)
+atualizarInterface(document.getElementById('nomeFunc').value);
